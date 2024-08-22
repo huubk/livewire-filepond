@@ -58,20 +58,15 @@ $pondLocalizations = __('livewire-filepond::filepond');
           allowMultiple: isMultiple,
           server: {
               process: (fieldName, file, metadata, load, error, progress) => {
-                  $dispatch('filepond-upload-started', '{{ $wireModelAttribute }}');
-                  @this.upload('{{ $wireModelAttribute }}', file, (response) => {
-                      load(response);
-                      $dispatch('filepond-upload-finished', {'{{ $wireModelAttribute }}', response });
-                  }, error, progress);
+                  @this.upload('{{ $wireModelAttribute }}', file, load, error, progress);
               },
               revert: (filename, load) => {
                   @this.revert('{{ $wireModelAttribute }}', filename, load);
-                  $dispatch('filepond-upload-reverted', '{{ $wireModelAttribute }}');
               },
               remove: (file, load) => {
+              console.log(file);
                   @this.remove('{{ $wireModelAttribute }}', file.name);
                   load();
-                  $dispatch('filepond-upload-file-removed', '{{ $wireModelAttribute }}');
               },
           },
           labelIdle: @js($placeholder),
